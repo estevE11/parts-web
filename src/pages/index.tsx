@@ -1,5 +1,5 @@
 import { Player } from '@/interfaces/Player';
-import { Box, Button } from '@chakra-ui/react'
+import { Badge, Box, Button } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useState } from 'react';
 import { apiPOST } from '@/utils/apiUtils';
@@ -43,7 +43,10 @@ export default function Home() {
                             <Box>Part {partNum+1}</Box>
                             <ul>
                                 {part.map(playerIdx => (
-                                    <li>{players[playerIdx].name}</li>
+                                    <li>
+                                        <Badge>{ players[playerIdx].number }</Badge>
+                                        {players[playerIdx].name}
+                                    </li>
                                 ))}
                             </ul>
                         </Box>
