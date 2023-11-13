@@ -7,9 +7,9 @@ import { apiPOST } from '@/utils/apiUtils';
 export default function Home() {
   
     const [players, setPlayers] = useState<Player[]>([
-        { id: 0, name: "Lucas", number: 13, q: 2 },
-        { id: 1, name: "Raul", number: 4, q: 1},
-        { id: 2, name: "Esteve", number: 11, q: 2 }
+        { id: 0, name: "Lucas", number: 13, q: 2, active: true },
+        { id: 1, name: "Raul", number: 4, q: 1, active: true},
+        { id: 2, name: "Esteve", number: 11, q: 2, active: true }
     ]);
 
     const [parts, setParts] = useState([[]]); // 2d number array containing player index
