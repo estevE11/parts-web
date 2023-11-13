@@ -58,7 +58,7 @@ export default function Home() {
                             </Box>
                             <table style={{marginRight: "10%", marginLeft: "10%"}}>
                                 {part.map(playerIdx => (
-                                    <tr>
+                                    <tr key={Math.random()}>
                                         <td align='right'>
                                             { players[playerIdx].number }
                                         </td>
