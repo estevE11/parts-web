@@ -1,5 +1,5 @@
 import { Player } from '@/interfaces/Player';
-import { Badge, Box, Button } from '@chakra-ui/react'
+import { AbsoluteCenter, Badge, Box, Button, Divider, Flex } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useState } from 'react';
 import { apiPOST } from '@/utils/apiUtils';
@@ -12,7 +12,7 @@ export default function Home() {
         { id: 2, name: "Esteve", number: 11, q: 2 }
     ]);
 
-    const [parts, setParts] = useState([[0, 1, 2], [2, 1, 0], [1, 2, 0]]); // 2d number array containing player index
+    const [parts, setParts] = useState([[]]); // 2d number array containing player index
 
     const generateMatch = () => {
         const body = {
@@ -35,23 +35,42 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Box>
-                <Button onClick={generateMatch}>Generate match</Button>
-                <ul>
+            <Box m={2}>
+                <Box>
+                    <Flex>
+                        <Box w="50%" pr={1}>
+                            <Button w="100%">Upload</Button>
+                        </Box>
+                        <Box w="50%" pl={1}>
+                            <Button w="100%">Copy</Button>
+                        </Box>
+                    </Flex>
+                    <Button mt={2} w="100%" onClick={generateMatch}>Generate match</Button>
+                </Box>
+                <Box mt="2">
                     {parts.map((part: number[], partNum) => (
                         <Box key={"part" + partNum}>
-                            <Box>Part {partNum+1}</Box>
-                            <ul>
+                            <Box position='relative' padding='5'>
+                                <Divider size="xl"/>
+                                <AbsoluteCenter bg='white' px='4'>
+                                    {partNum+1}
+                                </AbsoluteCenter>
+                            </Box>
+                            <table style={{marginRight: "10%", marginLeft: "10%"}}>
                                 {part.map(playerIdx => (
-                                    <li>
-                                        <Badge>{ players[playerIdx].number }</Badge>
-                                        {players[playerIdx].name}
-                                    </li>
+                                    <tr>
+                                        <td align='right'>
+                                            { players[playerIdx].number }
+                                        </td>
+                                        <td style={{padding:8, paddingLeft: 10}}>
+                                            { players[playerIdx].name }
+                                        </td>
+                                    </tr>
                                 ))}
-                            </ul>
+                            </table>
                         </Box>
                     ))}
-                </ul>
+                </Box>
             </Box>
         </>
     )
