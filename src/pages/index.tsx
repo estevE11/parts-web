@@ -1,7 +1,7 @@
 import { Player } from '@/interfaces/Player';
 import { AbsoluteCenter, Badge, Box, Button, Divider, Flex, VisuallyHidden, useToast } from '@chakra-ui/react'
 import Head from 'next/head'
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { apiPOST } from '@/utils/apiUtils';
 import SelectPlayerModal from '@/components/modals/SelectPlayerModal';
 
@@ -10,12 +10,14 @@ export default function Home() {
     const fileInputRef = useRef<HTMLInputElement>(null);
   
     const [players, setPlayers] = useState<Player[]>([]);
-
     const [parts, setParts] = useState<number[][]>(); // 2d number array containing player index
+    const [playCount, setPlayCount] = useState<number[]>([]);
 
     const [selectPlayerModalOpen, setSelectPlayerModalOpen] = useState(false);
 
     const [positionSelected, setPositionSelected] = useState([-1, -1]);
+
+    useEffect(() => {calculateMatchStats()}, [parts]);
 
     const loadFile = (e: ChangeEvent<HTMLInputElement>) => {
         const reader = new FileReader();
@@ -54,6 +56,20 @@ export default function Home() {
         apiPOST('match', body).then((data: any) => {
             setParts([...data.parts]);
         });
+    }
+
+    const calculateMatchStats = () => {
+        if (!parts) return;
+
+        let playCount: number[] = new Array(players.length).fill(0);
+        console.log(playCount);
+
+        for (let i = 0; i < parts.length; i++) {
+            for (let j = 0; j < parts[i].length; j++) {
+                playCount[parts[i][j]]++;
+            }
+        }
+        setPlayCount([...playCount]);
     }
 
     const updateSelectedPlayer = (newPlayerId: number) => {
@@ -149,11 +165,28 @@ export default function Home() {
                         </Box>
                     ))}
                     { players.length > 0 && 
-                        <Box position='relative' padding='5'>
-                            <Divider size="xl"/>
-                            <AbsoluteCenter bg='white' px='4'>
-                                Play count
-                            </AbsoluteCenter>
+                        <Box>
+                            <Box position='relative' padding='5'>
+                                <Divider size="xl"/>
+                                <AbsoluteCenter bg='white' px='4'>
+                                    Play count
+                                </AbsoluteCenter>
+                            </Box>
+                            <table style={{marginRight: "10%", marginLeft: "10%"}}>
+                                {players.map((player: Player) => (
+                                    <tr key={"pc" + Math.random()}>
+                                        <td align='right'>
+                                            { player.number }
+                                        </td>
+                                        <td style={{padding:8, paddingLeft: 10}}>
+                                            { player.name }
+                                        </td>
+                                        <td style={{padding:8, paddingLeft: 10}}>
+                                            { playCount[player.id] }
+                                        </td>
+                                    </tr>
+                                ))}
+                            </table>
                         </Box>
                     }
                 </Box>
