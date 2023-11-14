@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { apiPOST } from '@/utils/apiUtils';
 import SelectPlayerModal from '@/components/modals/SelectPlayerModal';
 import { calculatePlayCount } from '@/utils/partsUtils';
-import { ChevronDownIcon, DownloadIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons';
+import { CheckIcon, ChevronDownIcon, CopyIcon, DownloadIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons';
 
 export default function Home() {
     const toast = useToast();
@@ -141,7 +141,7 @@ export default function Home() {
                                 <MenuList>
                                     { players.length > 0 &&
                                         <>
-                                            <MenuItem icon={<EditIcon/>}>Edit lineup</MenuItem>
+                                            <MenuItem icon={<CheckIcon/>}>Edit lineup</MenuItem>
                                             <MenuItem icon={<EditIcon/>}>Edit team</MenuItem>
                                             <MenuItem icon={<DownloadIcon/>}>Download team file</MenuItem>
                                         </>
@@ -158,7 +158,7 @@ export default function Home() {
                             </VisuallyHidden>
                         </Box>
                         <Box w="100%" pl={1}>
-                            <Button w="100%" onClick={copy}>Copy</Button>
+                            <Button w="100%" leftIcon={ <CopyIcon/> }  onClick={copy}> Copy</Button>
                         </Box>
                     </Flex>
                     <Button mt={2} w="100%" onClick={generateMatch}>Generate match</Button>
