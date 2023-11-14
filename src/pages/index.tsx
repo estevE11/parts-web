@@ -1,11 +1,12 @@
 import { Player } from '@/interfaces/Player';
-import { AbsoluteCenter, Badge, Box, Button, Divider, Flex } from '@chakra-ui/react'
+import { AbsoluteCenter, Badge, Box, Button, Divider, Flex, useToast } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useState } from 'react';
 import { apiPOST } from '@/utils/apiUtils';
 import SelectPlayerModal from '@/components/modals/SelectPlayerModal';
 
 export default function Home() {
+    const toast = useToast();
   
     const [players, setPlayers] = useState<Player[]>([
         { id: 0, name: "Lucas", number: 13, q: 2, active: true },
@@ -42,6 +43,29 @@ export default function Home() {
         setSelectPlayerModalOpen(true);
     }
 
+    const copy = () => {
+        let copyText = "";
+
+        for (let i = 0; i < parts.length; i++) { 
+            copyText += `Part ${i+1}:\n`;
+            for (let j = 0; j < parts[i].length; j++) { 
+                const player = players[parts[i][j]];
+                copyText += `${player.number} - ${player.name}\n`;
+            }
+            copyText += `\n`;
+        }
+
+        navigator.clipboard.writeText(copyText);
+
+        toast({
+            title: 'Copied!',
+            description: "Match copied to clipboard!",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        })
+    }
+
     return (
         <>
             <Head>
@@ -57,7 +81,7 @@ export default function Home() {
                             <Button w="100%">Upload</Button>
                         </Box>
                         <Box w="50%" pl={1}>
-                            <Button w="100%">Copy</Button>
+                            <Button w="100%" onClick={copy}>Copy</Button>
                         </Box>
                     </Flex>
                     <Button mt={2} w="100%" onClick={generateMatch}>Generate match</Button>
