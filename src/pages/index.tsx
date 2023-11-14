@@ -4,6 +4,7 @@ import Head from 'next/head'
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { apiPOST } from '@/utils/apiUtils';
 import SelectPlayerModal from '@/components/modals/SelectPlayerModal';
+import { calculatePlayCount } from '@/utils/partsUtils';
 
 export default function Home() {
     const toast = useToast();
@@ -61,14 +62,8 @@ export default function Home() {
     const calculateMatchStats = () => {
         if (!parts) return;
 
-        let playCount: number[] = new Array(players.length).fill(0);
-        console.log(playCount);
+        const playCount = calculatePlayCount(parts, players);
 
-        for (let i = 0; i < parts.length; i++) {
-            for (let j = 0; j < parts[i].length; j++) {
-                playCount[parts[i][j]]++;
-            }
-        }
         setPlayCount([...playCount]);
     }
 
