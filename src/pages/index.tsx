@@ -1,12 +1,13 @@
 import { Player } from '@/interfaces/Player';
-import { AbsoluteCenter, Badge, Box, Button, Divider, Flex, useToast } from '@chakra-ui/react'
+import { AbsoluteCenter, Badge, Box, Button, Divider, Flex, VisuallyHidden, useToast } from '@chakra-ui/react'
 import Head from 'next/head'
-import { useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { apiPOST } from '@/utils/apiUtils';
 import SelectPlayerModal from '@/components/modals/SelectPlayerModal';
 
 export default function Home() {
     const toast = useToast();
+    const fileInputRef = useRef<HTMLInputElement>(null);
   
     const [players, setPlayers] = useState<Player[]>([
         { id: 0, name: "Lucas", number: 13, q: 2, active: true },
@@ -19,6 +20,23 @@ export default function Home() {
     const [selectPlayerModalOpen, setSelectPlayerModalOpen] = useState(false);
 
     const [positionSelected, setPositionSelected] = useState([-1, -1]);
+
+    const loadFile = (e: ChangeEvent<HTMLInputElement>) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', (event) => {
+            if (event.target != undefined && event.target.result != undefined) {
+                const fileObject = JSON.parse(event.target.result.toString());
+                fileObject["players"].map((x: any, index: number) => {
+                    x["id"] = index;
+                    x["active"] = true;
+                    return x;
+                })
+                setPlayers([...fileObject["players"]]);
+            }
+        })
+        if (e.target.files != undefined)
+            reader.readAsText(e.target.files[0]);
+    }
 
     const generateMatch = () => {
         const body = {
@@ -78,7 +96,10 @@ export default function Home() {
                 <Box>
                     <Flex>
                         <Box w="50%" pr={1}>
-                            <Button w="100%">Upload</Button>
+                            <Button w="100%" onClick={() => fileInputRef.current?.click()}>Upload</Button>
+                            <VisuallyHidden>
+                                <input type="file" accept=".json" ref={fileInputRef} onChange={loadFile} />
+                            </VisuallyHidden>
                         </Box>
                         <Box w="50%" pl={1}>
                             <Button w="100%" onClick={copy}>Copy</Button>
