@@ -199,8 +199,9 @@ export default function Home() {
             <SelectPlayerModal
                 open={selectPlayerModalOpen}
                 onClose={() => { setSelectPlayerModalOpen(false) }}
-                players={ players }
                 onChange={ updateSelectedPlayer }
+                players={ players }
+                playCount={ playCount }
             ></SelectPlayerModal>
         </>
     )

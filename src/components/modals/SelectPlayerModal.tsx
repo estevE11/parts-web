@@ -6,10 +6,11 @@ type SelectPlayerModalProps = {
     open: boolean;
     onClose: () => void;
     players: Player[];
+    playCount: number[];
     onChange: (playerId: number) => void;
 }
 
-export default function SelectPlayerModal({ open, onClose, players, onChange } : SelectPlayerModalProps ) {
+export default function SelectPlayerModal({ open, onClose, players, onChange, playCount } : SelectPlayerModalProps ) {
 
     return (
         <Modal blockScrollOnMount={false} isOpen={open} onClose={onClose}>
@@ -27,6 +28,9 @@ export default function SelectPlayerModal({ open, onClose, players, onChange } :
                                 </td>
                                 <td style={{padding:8, paddingLeft: 10}}>
                                     { player.name }
+                                </td>
+                                <td style={{padding:8, paddingLeft: 10}}>
+                                    { playCount[player.id] }
                                 </td>
                             </tr>
                         ))}
