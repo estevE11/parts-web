@@ -3,6 +3,7 @@ import { AbsoluteCenter, Badge, Box, Button, Divider, Flex } from '@chakra-ui/re
 import Head from 'next/head'
 import { useState } from 'react';
 import { apiPOST } from '@/utils/apiUtils';
+import SelectPlayerModal from '@/components/modals/SelectPlayerModal';
 
 export default function Home() {
   
@@ -12,7 +13,11 @@ export default function Home() {
         { id: 2, name: "Esteve", number: 11, q: 2, active: true }
     ]);
 
-    const [parts, setParts] = useState([[]]); // 2d number array containing player index
+    const [parts, setParts] = useState<number[][]>([[]]); // 2d number array containing player index
+
+    const [selectPlayerModalOpen, setSelectPlayerModalOpen] = useState(false);
+
+    const [positionSelected, setPositionSelected] = useState([-1, -1]);
 
     const generateMatch = () => {
         const body = {
@@ -26,6 +31,16 @@ export default function Home() {
         });
     }
 
+    const updateSelectedPlayer = (newPlayerId: number) => {
+        parts[positionSelected[0]][positionSelected[1]] = newPlayerId;
+        setParts([...parts]);
+        setSelectPlayerModalOpen(false);
+    }
+
+    const openSelectPlayerModal = (partN: number, posIndex: number) => {
+        setPositionSelected([partN, posIndex]);
+        setSelectPlayerModalOpen(true);
+    }
 
     return (
         <>
@@ -57,8 +72,8 @@ export default function Home() {
                                 </AbsoluteCenter>
                             </Box>
                             <table style={{marginRight: "10%", marginLeft: "10%"}}>
-                                {part.map(playerIdx => (
-                                    <tr key={Math.random()}>
+                                {part.map((playerIdx, index) => (
+                                    <tr key={Math.random()} onClick={() => { openSelectPlayerModal(partNum, index) }}>
                                         <td align='right'>
                                             { players[playerIdx].number }
                                         </td>
@@ -72,6 +87,12 @@ export default function Home() {
                     ))}
                 </Box>
             </Box>
+            <SelectPlayerModal
+                open={selectPlayerModalOpen}
+                onClose={() => { setSelectPlayerModalOpen(false) }}
+                players={ players }
+                onChange={ updateSelectedPlayer }
+            ></SelectPlayerModal>
         </>
     )
 }
