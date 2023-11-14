@@ -9,13 +9,9 @@ export default function Home() {
     const toast = useToast();
     const fileInputRef = useRef<HTMLInputElement>(null);
   
-    const [players, setPlayers] = useState<Player[]>([
-        { id: 0, name: "Lucas", number: 13, q: 2, active: true },
-        { id: 1, name: "Raul", number: 4, q: 1, active: true},
-        { id: 2, name: "Esteve", number: 11, q: 2, active: true }
-    ]);
+    const [players, setPlayers] = useState<Player[]>([]);
 
-    const [parts, setParts] = useState<number[][]>([[]]); // 2d number array containing player index
+    const [parts, setParts] = useState<number[][]>(); // 2d number array containing player index
 
     const [selectPlayerModalOpen, setSelectPlayerModalOpen] = useState(false);
 
@@ -39,6 +35,16 @@ export default function Home() {
     }
 
     const generateMatch = () => {
+        if (players.length <= 0) {
+            toast({
+                title: 'No team!',
+                description: "You need to upload a team file before generating a match!",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
         const body = {
             players: players,
             nParts: 4,
@@ -51,6 +57,7 @@ export default function Home() {
     }
 
     const updateSelectedPlayer = (newPlayerId: number) => {
+        if (!parts) return;
         parts[positionSelected[0]][positionSelected[1]] = newPlayerId;
         setParts([...parts]);
         setSelectPlayerModalOpen(false);
@@ -63,6 +70,17 @@ export default function Home() {
 
     const copy = () => {
         let copyText = "";
+
+        if (!parts) {
+            toast({
+                title: 'No match',
+                description: "You need to generate a match to copy",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
 
         for (let i = 0; i < parts.length; i++) { 
             copyText += `Part ${i+1}:\n`;
@@ -108,7 +126,7 @@ export default function Home() {
                     <Button mt={2} w="100%" onClick={generateMatch}>Generate match</Button>
                 </Box>
                 <Box mt="2">
-                    {parts.map((part: number[], partNum) => (
+                    {parts && parts.map((part: number[], partNum) => (
                         <Box key={"part" + partNum}>
                             <Box position='relative' padding='5'>
                                 <Divider size="xl"/>
@@ -130,6 +148,14 @@ export default function Home() {
                             </table>
                         </Box>
                     ))}
+                    { players.length > 0 && 
+                        <Box position='relative' padding='5'>
+                            <Divider size="xl"/>
+                            <AbsoluteCenter bg='white' px='4'>
+                                Play count
+                            </AbsoluteCenter>
+                        </Box>
+                    }
                 </Box>
             </Box>
             <SelectPlayerModal
