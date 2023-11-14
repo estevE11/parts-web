@@ -1,10 +1,11 @@
 import { Player } from '@/interfaces/Player';
-import { AbsoluteCenter, Badge, Box, Button, Divider, Flex, VisuallyHidden, useToast } from '@chakra-ui/react'
+import { AbsoluteCenter, Badge, Box, Button, Divider, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, VisuallyHidden, useToast } from '@chakra-ui/react'
 import Head from 'next/head'
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { apiPOST } from '@/utils/apiUtils';
 import SelectPlayerModal from '@/components/modals/SelectPlayerModal';
 import { calculatePlayCount } from '@/utils/partsUtils';
+import { ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons';
 
 export default function Home() {
     const toast = useToast();
@@ -129,13 +130,30 @@ export default function Home() {
             <Box m={2}>
                 <Box>
                     <Flex>
-                        <Box w="50%" pr={1}>
-                            <Button w="100%" onClick={() => fileInputRef.current?.click()}>Upload</Button>
+                        <Box pr={1}>
+                            <Menu>
+                                <MenuButton
+                                    as={IconButton}
+                                    aria-label='Options'
+                                    icon={<HamburgerIcon />}
+                                    variant='outline'
+                                />
+                                <MenuList>
+                                    <MenuItem onClick={() => fileInputRef.current?.click()}>Upload team</MenuItem>
+                                    { players.length > 0 &&
+                                        <>
+                                            <MenuItem>Edit lineup</MenuItem>
+                                            <MenuItem>Edit team</MenuItem>
+                                            <MenuItem>Download team file</MenuItem>
+                                        </>
+                                    }
+                                </MenuList>
+                            </Menu>
                             <VisuallyHidden>
                                 <input type="file" accept=".json" ref={fileInputRef} onChange={loadFile} />
                             </VisuallyHidden>
                         </Box>
-                        <Box w="50%" pl={1}>
+                        <Box w="100%" pl={1}>
                             <Button w="100%" onClick={copy}>Copy</Button>
                         </Box>
                     </Flex>
