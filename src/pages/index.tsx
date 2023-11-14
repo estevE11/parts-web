@@ -107,6 +107,11 @@ export default function Home() {
             copyText += `\n`;
         }
 
+        for (let i = 0; i < playCount.length; i++) {
+            if (!players[i].active) continue;
+            copyText += `${players[i].number} - ${players[i].name} played ${playCount[i]}\n`
+        }
+
         navigator.clipboard.writeText(copyText);
 
         toast({
