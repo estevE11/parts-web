@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { apiPOST } from '@/utils/apiUtils';
 import SelectPlayerModal from '@/components/modals/SelectPlayerModal';
 import { calculatePlayCount } from '@/utils/partsUtils';
-import { ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, DownloadIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons';
 
 export default function Home() {
     const toast = useToast();
@@ -139,14 +139,18 @@ export default function Home() {
                                     variant='outline'
                                 />
                                 <MenuList>
-                                    <MenuItem onClick={() => fileInputRef.current?.click()}>Upload team</MenuItem>
                                     { players.length > 0 &&
                                         <>
-                                            <MenuItem>Edit lineup</MenuItem>
-                                            <MenuItem>Edit team</MenuItem>
-                                            <MenuItem>Download team file</MenuItem>
+                                            <MenuItem icon={<EditIcon/>}>Edit lineup</MenuItem>
+                                            <MenuItem icon={<EditIcon/>}>Edit team</MenuItem>
+                                            <MenuItem icon={<DownloadIcon/>}>Download team file</MenuItem>
                                         </>
                                     }
+                                    <MenuItem
+                                        ml="-8px"
+                                        icon={<DownloadIcon ml={2} style={{ transform: 'rotate(180deg)' }}></DownloadIcon>}
+                                        onClick={() => fileInputRef.current?.click()}
+                                    >Upload team</MenuItem>
                                 </MenuList>
                             </Menu>
                             <VisuallyHidden>
