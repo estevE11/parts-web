@@ -30,7 +30,7 @@ const getLeastPlayedPlayers = (parts: number[][], players: Player[]) => {
     const playList: Player[][] = new Array(parts.length).fill([]);
 
     for (let i = 0; i < playCount.length; i++) {
-        if (!players[i].active) continue;
+        if (!players[i].active || playCount[i] >= parts.length) continue;
         playList[playCount[i]] = [...playList[playCount[i]], players[i]];
     }
 
