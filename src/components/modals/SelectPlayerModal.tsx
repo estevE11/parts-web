@@ -21,19 +21,22 @@ export default function SelectPlayerModal({ open, onClose, players, onChange, pl
                 <ModalBody>
                 </ModalBody>
                     <table style={{marginRight: "10%", marginLeft: "10%"}}>
-                        {players.map((player: Player, index: number) => (
-                            <tr key={Math.random()} onClick={() => {onChange(index)}}>
+                    {players.map((player: Player, index: number) => {
+                        if (!player.active) return;
+                        return (
+                            <tr key={Math.random()} onClick={() => { onChange(index) }}>
                                 <td align='right'>
-                                    { player.number }
+                                    {player.number}
                                 </td>
-                                <td style={{padding:8, paddingLeft: 10}}>
-                                    { player.name }
+                                <td style={{ padding: 8, paddingLeft: 10 }}>
+                                    {player.name}
                                 </td>
-                                <td style={{padding:8, paddingLeft: 10}}>
-                                    { playCount[player.id] }
+                                <td style={{ padding: 8, paddingLeft: 10 }}>
+                                    {playCount[player.id]}
                                 </td>
                             </tr>
-                        ))}
+                        )
+                    })}
                     </table>
                 <ModalFooter>
                     <Button colorScheme='blue' mr={3} onClick={onClose}>
