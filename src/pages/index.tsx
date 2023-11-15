@@ -136,7 +136,6 @@ export default function Home() {
                                     as={IconButton}
                                     aria-label='Options'
                                     icon={<HamburgerIcon />}
-                                    variant='outline'
                                 />
                                 <MenuList>
                                     { players.length > 0 &&
