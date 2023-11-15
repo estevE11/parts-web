@@ -8,10 +8,14 @@ const generateMatch = (players: Player[], nParts: number, nPlayers: number): num
         console.log("generating part " + (partIndex+1))
         for (let i = 0; i < nPlayers; i++) {
             const playerPool = getLeastPlayedPlayers(parts, players);
+            console.log(playerPool);
 
+            let count = 0;
             let selectedPlayer = getRandom(playerPool);
-            while (parts[partIndex].includes(selectedPlayer.id)) {
+            while (parts[partIndex].includes(selectedPlayer.id) || !selectedPlayer.active) {
                 selectedPlayer = getRandom(playerPool);
+                count++;
+                if (count > 10) return parts;
             }
 
             parts[partIndex] = [...parts[partIndex], selectedPlayer.id];
@@ -26,6 +30,7 @@ const getLeastPlayedPlayers = (parts: number[][], players: Player[]) => {
     const playList: Player[][] = new Array(parts.length).fill([]);
 
     for (let i = 0; i < playCount.length; i++) {
+        if (!players[i].active) continue;
         playList[playCount[i]] = [...playList[playCount[i]], players[i]];
     }
 

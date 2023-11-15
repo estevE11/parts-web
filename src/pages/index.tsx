@@ -6,6 +6,7 @@ import { apiPOST } from '@/utils/apiUtils';
 import SelectPlayerModal from '@/components/modals/SelectPlayerModal';
 import { calculatePlayCount } from '@/utils/partsUtils';
 import { CheckIcon, ChevronDownIcon, CopyIcon, DownloadIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons';
+import EditLineupModal from '@/components/modals/EditLineupModal';
 
 export default function Home() {
     const toast = useToast();
@@ -16,6 +17,7 @@ export default function Home() {
     const [playCount, setPlayCount] = useState<number[]>([]);
 
     const [selectPlayerModalOpen, setSelectPlayerModalOpen] = useState(false);
+    const [editLineupModalOpen, setEditLineupModalOpen] = useState(false);
 
     const [positionSelected, setPositionSelected] = useState([-1, -1]);
 
@@ -140,7 +142,7 @@ export default function Home() {
                                 <MenuList>
                                     { players.length > 0 &&
                                         <>
-                                            <MenuItem icon={<CheckIcon/>}>Edit lineup</MenuItem>
+                                            <MenuItem icon={<CheckIcon/>} onClick={() => (setEditLineupModalOpen(true))}>Edit lineup</MenuItem>
                                             <MenuItem icon={<EditIcon/>}>Edit team</MenuItem>
                                             <MenuItem icon={<DownloadIcon/>}>Download team file</MenuItem>
                                         </>
@@ -194,19 +196,22 @@ export default function Home() {
                                 </AbsoluteCenter>
                             </Box>
                             <table style={{marginRight: "10%", marginLeft: "10%"}}>
-                                {players.map((player: Player) => (
-                                    <tr key={"pc" + Math.random()}>
-                                        <td align='right'>
-                                            { player.number }
-                                        </td>
-                                        <td style={{padding:8, paddingLeft: 10}}>
-                                            { player.name }
-                                        </td>
-                                        <td style={{padding:8, paddingLeft: 10}}>
-                                            { playCount[player.id] }
-                                        </td>
-                                    </tr>
-                                ))}
+                                {players.map((player: Player) => {
+                                    if (!player.active) return;
+                                    return (
+                                        <tr key={"pc" + Math.random()}>
+                                            <td align='right'>
+                                                {player.number}
+                                            </td>
+                                            <td style={{ padding: 8, paddingLeft: 10 }}>
+                                                {player.name}
+                                            </td>
+                                            <td style={{ padding: 8, paddingLeft: 10 }}>
+                                                {playCount[player.id]}
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
                             </table>
                         </Box>
                     }
@@ -219,6 +224,12 @@ export default function Home() {
                 players={ players }
                 playCount={ playCount }
             ></SelectPlayerModal>
+            <EditLineupModal
+                open={editLineupModalOpen}
+                onClose={() => { setEditLineupModalOpen(false); } }
+                onChange={(players: Player[]) => (setPlayers([...players]))}
+                _players={players}
+            ></EditLineupModal>
         </>
     )
 }

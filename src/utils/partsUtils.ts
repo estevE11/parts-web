@@ -8,7 +8,6 @@ function calculatePlayCount(parts: number[][], players: Player[]): number[] {
             playCount[parts[i][j]]++;
         }
     }
-    console.log(playCount);
 
     return playCount;
 }
