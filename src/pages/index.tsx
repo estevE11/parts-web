@@ -15,6 +15,7 @@ export default function Home() {
     const [players, setPlayers] = useState<Player[]>([]);
     const [parts, setParts] = useState<number[][]>(); // 2d number array containing player index
     const [playCount, setPlayCount] = useState<number[]>([]);
+    const [warnings, setWarnings] = useState<number[][]>(new Array(4).fill(new Array(6).fill(0))); // 2d array containing part position info
 
     const [selectPlayerModalOpen, setSelectPlayerModalOpen] = useState(false);
     const [editLineupModalOpen, setEditLineupModalOpen] = useState(false);
@@ -65,9 +66,10 @@ export default function Home() {
     const calculateMatchStats = () => {
         if (!parts) return;
 
-        const playCount = calculatePlayCount(parts, players);
+        const stats = calculatePlayCount(parts, players);
 
-        setPlayCount([...playCount]);
+        setPlayCount([...stats[0]]);
+        setWarnings([...stats[1]]);
     }
 
     const updateSelectedPlayer = (newPlayerId: number) => {
@@ -175,7 +177,7 @@ export default function Home() {
                             </Box>
                             <table style={{marginRight: "10%", marginLeft: "10%"}}>
                                 {part.map((playerIdx, index) => (
-                                    <tr key={Math.random()} onClick={() => { openSelectPlayerModal(partNum, index) }}>
+                                    <tr key={Math.random()} style={{backgroundColor: warnings[partNum][index] == 0 ? 'white' : '#ffcccc'}} onClick={() => { openSelectPlayerModal(partNum, index) }}>
                                         <td align='right'>
                                             { players[playerIdx].number }
                                         </td>

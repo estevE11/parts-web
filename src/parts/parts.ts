@@ -26,7 +26,7 @@ const generateMatch = (players: Player[], nParts: number, nPlayers: number): num
 }
 
 const getLeastPlayedPlayers = (parts: number[][], players: Player[]) => {
-    const playCount = calculatePlayCount(parts, players); 
+    const playCount = calculatePlayCount(parts, players)[0]; 
     const playList: Player[][] = new Array(parts.length).fill([]);
 
     for (let i = 0; i < playCount.length; i++) {
