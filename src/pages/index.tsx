@@ -201,7 +201,7 @@ export default function Home() {
                                 {players.map((player: Player) => {
                                     if (!player.active) return;
                                     return (
-                                        <tr key={"pc" + Math.random()}>
+                                        <tr key={"pc" + Math.random()} style={{backgroundColor: playCount[player.id] < 2 || playCount[player.id] > 3 ? '#ffffaa' : 'white'}}>
                                             <td align='right'>
                                                 {player.number}
                                             </td>
