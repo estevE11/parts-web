@@ -211,6 +211,13 @@ export default function Home() {
                                             <td style={{ padding: 8, paddingLeft: 10 }}>
                                                 {playCount[player.id]}
                                             </td>
+                                            <td style={{paddingLeft: '15px'}}>
+                                                {parts?.map((part, partIndex) => {
+                                                    return (
+                                                        <div style={{ display: 'inline-block', marginRight: '5px', width: '10px', height: '10px', backgroundColor: 'black' }}></div>
+                                                    )
+                                                })}
+                                            </td>
                                         </tr>
                                     )
                                 })}
