@@ -16,6 +16,7 @@ export default function Home() {
     const [parts, setParts] = useState<number[][]>(); // 2d number array containing player index
     const [playCount, setPlayCount] = useState<number[]>([]);
     const [warnings, setWarnings] = useState<number[][]>(new Array(4).fill(new Array(6).fill(0))); // 2d array containing part position info
+    const [playedParts, setPlayedParts] = useState<number[][]>(new Array(20).fill(new Array(4).fill(0))); // 2d array containing part position info
 
     const [selectPlayerModalOpen, setSelectPlayerModalOpen] = useState(false);
     const [editLineupModalOpen, setEditLineupModalOpen] = useState(false);
@@ -70,6 +71,7 @@ export default function Home() {
 
         setPlayCount([...stats[0]]);
         setWarnings([...stats[1]]);
+        setPlayedParts([...stats[2]]);
     }
 
     const updateSelectedPlayer = (newPlayerId: number) => {
@@ -212,9 +214,16 @@ export default function Home() {
                                                 {playCount[player.id]}
                                             </td>
                                             <td style={{paddingLeft: '15px'}}>
-                                                {parts?.map((part, partIndex) => {
+                                                {parts?.map((part, partNum) => {
                                                     return (
-                                                        <div style={{ display: 'inline-block', marginRight: '5px', width: '10px', height: '10px', backgroundColor: 'black' }}></div>
+                                                        <div style={{
+                                                            display: 'inline-block',
+                                                            marginRight: '5px',
+                                                            width: '10px',
+                                                            height: '10px',
+                                                            border: '1px solid black',
+                                                            backgroundColor: playedParts[player.id][partNum] == 1 ? 'black' : 'white'
+                                                        }}></div>
                                                     )
                                                 })}
                                             </td>
