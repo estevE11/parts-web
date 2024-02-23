@@ -216,7 +216,7 @@ export default function Home() {
                                             <td style={{paddingLeft: '15px'}}>
                                                 {parts?.map((part, partNum) => {
                                                     return (
-                                                        <div style={{
+                                                        <div key={"vis"+part+partNum} style={{
                                                             display: 'inline-block',
                                                             marginRight: '5px',
                                                             width: '10px',
