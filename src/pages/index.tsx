@@ -241,6 +241,8 @@ export default function Home() {
                 onChange={ updateSelectedPlayer }
                 players={ players }
                 playCount={ playCount }
+                changePosition={ positionSelected[1] }
+                partPlayers={ parts && positionSelected[0] > -1 ? parts[positionSelected[0]] : []}
             ></SelectPlayerModal>
             <EditLineupModal
                 open={editLineupModalOpen}
