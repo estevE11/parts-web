@@ -1,5 +1,5 @@
 import { Player } from '@/interfaces/Player';
-import { Box, useToast } from '@chakra-ui/react'
+import { AbsoluteCenter, Box, Spinner, useToast } from '@chakra-ui/react'
 import Head from 'next/head'
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { apiPOST } from '@/utils/apiUtils';
@@ -24,6 +24,8 @@ export default function Home() {
 
     const [positionSelected, setPositionSelected] = useState([-1, -1]);
 
+    const [generating, setGenerating] = useState(false);
+
     useEffect(() => {calculateMatchStats()}, [parts]);
 
     const loadFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +46,7 @@ export default function Home() {
     }
 
     const generateMatch = () => {
+        setParts(undefined);
         if (players.length <= 0) {
             toast({
                 title: 'No team!',
@@ -60,7 +63,10 @@ export default function Home() {
             nPlayers: 6
         };
 
+        setGenerating(true);
+
         apiPOST('match', body).then((data: any) => {
+            setGenerating(false);
             setParts([...data.parts]);
         });
     }
@@ -143,6 +149,12 @@ export default function Home() {
                     onCopy={copy}
                 ></Header>
                 <Box mt="2">
+                    {generating &&
+                        <AbsoluteCenter>
+                            <Spinner size="xl" />
+                        </AbsoluteCenter>
+
+                    }
                     {parts && parts.map((part: number[], partNum) => (
                         <Box key={"part" + partNum}>
                             <PartHeader partNum={partNum}></PartHeader>
