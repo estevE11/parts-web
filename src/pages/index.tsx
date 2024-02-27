@@ -9,6 +9,7 @@ import { CheckIcon, ChevronDownIcon, CopyIcon, DownloadIcon, EditIcon, Hamburger
 import EditLineupModal from '@/components/modals/EditLineupModal';
 import PlayCountList from '@/components/modules/PlayCountList';
 import Header from '@/components/modules/Header';
+import PartHeader from '../components/ui/PartHeader';
 
 export default function Home() {
     const toast = useToast();
@@ -146,12 +147,7 @@ export default function Home() {
                 <Box mt="2">
                     {parts && parts.map((part: number[], partNum) => (
                         <Box key={"part" + partNum}>
-                            <Box position='relative' padding='5'>
-                                <Divider size="xl"/>
-                                <AbsoluteCenter bg='white' px='4'>
-                                    {partNum+1}
-                                </AbsoluteCenter>
-                            </Box>
+                            <PartHeader partNum={partNum}></PartHeader>
                             <table style={{marginRight: "10%", marginLeft: "10%"}}>
                                 {part.map((playerIdx, index) => (
                                     <tr key={Math.random()} style={{backgroundColor: warnings[partNum][index] == 0 ? 'white' : '#ffcccc'}} onClick={() => { openSelectPlayerModal(partNum, index) }}>
