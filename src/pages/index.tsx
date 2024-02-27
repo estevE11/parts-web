@@ -1,11 +1,10 @@
 import { Player } from '@/interfaces/Player';
-import { AbsoluteCenter, Badge, Box, Button, Divider, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, VisuallyHidden, useToast } from '@chakra-ui/react'
+import { Box, useToast } from '@chakra-ui/react'
 import Head from 'next/head'
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { apiPOST } from '@/utils/apiUtils';
 import SelectPlayerModal from '@/components/modals/SelectPlayerModal';
 import { calculatePlayCount } from '@/utils/partsUtils';
-import { CheckIcon, ChevronDownIcon, CopyIcon, DownloadIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons';
 import EditLineupModal from '@/components/modals/EditLineupModal';
 import PlayCountList from '@/components/modules/PlayCountList';
 import Header from '@/components/modules/Header';
@@ -13,7 +12,6 @@ import PartHeader from '../components/ui/PartHeader';
 
 export default function Home() {
     const toast = useToast();
-    const fileInputRef = useRef<HTMLInputElement>(null);
   
     const [players, setPlayers] = useState<Player[]>([]);
     const [parts, setParts] = useState<number[][]>(); // 2d number array containing player index
