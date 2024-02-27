@@ -7,7 +7,7 @@ import SelectPlayerModal from '@/components/modals/SelectPlayerModal';
 import { calculatePlayCount } from '@/utils/partsUtils';
 import { CheckIcon, ChevronDownIcon, CopyIcon, DownloadIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons';
 import EditLineupModal from '@/components/modals/EditLineupModal';
-import PlayedParts from '../components/ui/PlayedParts';
+import PlayCountList from '@/components/modules/PlayCountList';
 
 export default function Home() {
     const toast = useToast();
@@ -193,35 +193,12 @@ export default function Home() {
                         </Box>
                     ))}
                     { players.length > 0 && 
-                        <Box>
-                            <Box position='relative' padding='5'>
-                                <Divider size="xl"/>
-                                <AbsoluteCenter bg='white' px='4'>
-                                    Play count
-                                </AbsoluteCenter>
-                            </Box>
-                            <table style={{marginRight: "10%", marginLeft: "10%"}}>
-                                {players.map((player: Player) => {
-                                    if (!player.active) return;
-                                    return (
-                                        <tr key={"pc" + Math.random()} style={{backgroundColor: playCount[player.id] < 2 || playCount[player.id] > 3 ? '#ffffaa' : 'white'}}>
-                                            <td align='right'>
-                                                {player.number}
-                                            </td>
-                                            <td style={{ padding: 8, paddingLeft: 10 }}>
-                                                {player.name}
-                                            </td>
-                                            <td style={{ padding: 8, paddingLeft: 10 }}>
-                                                {playCount[player.id]}
-                                            </td>
-                                            <td style={{paddingLeft: '15px'}}>
-                                                <PlayedParts parts={parts ? parts : []} player={player} playedParts={playedParts}></PlayedParts>
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
-                            </table>
-                        </Box>
+                        <PlayCountList
+                            players={players}
+                            playCount={playCount}
+                            parts={parts ? parts : []}
+                            playedParts={playedParts} 
+                        ></PlayCountList>
                     }
                 </Box>
             </Box>
