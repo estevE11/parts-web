@@ -8,6 +8,7 @@ import { calculatePlayCount } from '@/utils/partsUtils';
 import { CheckIcon, ChevronDownIcon, CopyIcon, DownloadIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons';
 import EditLineupModal from '@/components/modals/EditLineupModal';
 import PlayCountList from '@/components/modules/PlayCountList';
+import Header from '@/components/modules/Header';
 
 export default function Home() {
     const toast = useToast();
@@ -135,40 +136,13 @@ export default function Home() {
             </Head>
 
             <Box m={2}>
-                <Box>
-                    <Flex>
-                        <Box pr={1}>
-                            <Menu>
-                                <MenuButton
-                                    as={IconButton}
-                                    aria-label='Options'
-                                    icon={<HamburgerIcon />}
-                                />
-                                <MenuList>
-                                    { players.length > 0 &&
-                                        <>
-                                            <MenuItem icon={<CheckIcon/>} onClick={() => (setEditLineupModalOpen(true))}>Edit lineup</MenuItem>
-                                            <MenuItem icon={<EditIcon/>}>Edit team</MenuItem>
-                                            <MenuItem icon={<DownloadIcon/>}>Download team file</MenuItem>
-                                        </>
-                                    }
-                                    <MenuItem
-                                        ml="-8px"
-                                        icon={<DownloadIcon ml={2} style={{ transform: 'rotate(180deg)' }}></DownloadIcon>}
-                                        onClick={() => fileInputRef.current?.click()}
-                                    >Upload team</MenuItem>
-                                </MenuList>
-                            </Menu>
-                            <VisuallyHidden>
-                                <input type="file" accept=".json" ref={fileInputRef} onChange={loadFile} />
-                            </VisuallyHidden>
-                        </Box>
-                        <Box w="100%" pl={1}>
-                            <Button w="100%" leftIcon={ <CopyIcon/> }  onClick={copy}> Copy</Button>
-                        </Box>
-                    </Flex>
-                    <Button mt={2} w="100%" onClick={generateMatch}>Generate match</Button>
-                </Box>
+                <Header
+                    players={players}
+                    onEditLineup={() => { setEditLineupModalOpen(true) }}
+                    onGenerateMatch={generateMatch}
+                    onLoadFile={loadFile}
+                    onCopy={copy}
+                ></Header>
                 <Box mt="2">
                     {parts && parts.map((part: number[], partNum) => (
                         <Box key={"part" + partNum}>
