@@ -7,6 +7,7 @@ import SelectPlayerModal from '@/components/modals/SelectPlayerModal';
 import { calculatePlayCount } from '@/utils/partsUtils';
 import { CheckIcon, ChevronDownIcon, CopyIcon, DownloadIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons';
 import EditLineupModal from '@/components/modals/EditLineupModal';
+import PlayedParts from '../components/ui/PlayedParts';
 
 export default function Home() {
     const toast = useToast();
@@ -214,18 +215,7 @@ export default function Home() {
                                                 {playCount[player.id]}
                                             </td>
                                             <td style={{paddingLeft: '15px'}}>
-                                                {parts?.map((part, partNum) => {
-                                                    return (
-                                                        <div key={"vis"+part+partNum} style={{
-                                                            display: 'inline-block',
-                                                            marginRight: '5px',
-                                                            width: '10px',
-                                                            height: '10px',
-                                                            border: '1px solid black',
-                                                            backgroundColor: playedParts[player.id][partNum] == 1 ? 'black' : 'white'
-                                                        }}></div>
-                                                    )
-                                                })}
+                                                <PlayedParts parts={parts ? parts : []} player={player} playedParts={playedParts}></PlayedParts>
                                             </td>
                                         </tr>
                                     )
