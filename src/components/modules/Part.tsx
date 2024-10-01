@@ -18,7 +18,7 @@ export default function Part({partData, partNum, players, warnings, onPlayerClic
                     {partData.map((playerIdx: any, index: any) => {
                         if (index > 2) return;
                         return (
-                            <PlayerCell playerData={players[playerIdx]} bgColor={warnings[partNum][index] == 0 ? 'white' : '#ffcccc'} onClick={() => { onPlayerClick(partNum, index) }}></PlayerCell>
+                            <PlayerCell key={"p"+ playerIdx + "" + index} playerData={players[playerIdx]} bgColor={warnings[partNum][index] == 0 ? 'white' : '#ffcccc'} onClick={() => { onPlayerClick(partNum, index) }}></PlayerCell>
                         )
                     })}
                 </tr>
@@ -26,7 +26,7 @@ export default function Part({partData, partNum, players, warnings, onPlayerClic
                     {partData.map((playerIdx: any, index: any) => {
                         if (index < 3) return;
                         return (
-                            <PlayerCell playerData={players[playerIdx]} bgColor={warnings[partNum][index] == 0 ? 'white' : '#ffcccc'} onClick={() => { onPlayerClick(partNum, index) }}></PlayerCell>
+                            <PlayerCell key={"p"+ playerIdx + "" + index} playerData={players[playerIdx]} bgColor={warnings[partNum][index] == 0 ? 'white' : '#ffcccc'} onClick={() => { onPlayerClick(partNum, index) }}></PlayerCell>
                         )
                     })}
                 </tr>

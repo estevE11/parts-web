@@ -15,7 +15,7 @@ export default function EditLineupModal({ open, onClose, _players, onChange } : 
 
     useEffect(() => {
         setPlayers([..._players]);
-    }, [open]);
+    }, [open, _players]);
 
     const togglePlayer = (playerId: number) => {
         players[playerId] = { ...players[playerId], active: !players[playerId].active };

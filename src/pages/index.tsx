@@ -164,7 +164,7 @@ export default function Home() {
 
                     }
                     {parts && parts.map((part: number[], partNum) => (
-                        <Part partData={part} partNum={partNum} players={players} warnings={warnings} onPlayerClick={openSelectPlayerModal}></Part>
+                        <Part key={ "part" + partNum } partData={part} partNum={partNum} players={players} warnings={warnings} onPlayerClick={openSelectPlayerModal}></Part>
                     ))}
                     { players.length > 0 && 
                         <PlayCountList
