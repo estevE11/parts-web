@@ -13,18 +13,32 @@ export default function Part({partData, partNum, players, warnings, onPlayerClic
     return (
         <Box key={"part" + partNum}>
             <PartHeader partNum={partNum}></PartHeader>
-            <table style={{ marginRight: "10%", marginLeft: "10%" }}>
-                {partData.map((playerIdx: any, index: any) => (
-                    <tr key={Math.random()} style={{ backgroundColor: warnings[partNum][index] == 0 ? 'white' : '#ffcccc' }} onClick={() => { onPlayerClick(partNum, index) }}>
-                        <td align='right'>
-                            {players[playerIdx].number}
-                        </td>
-                        <td style={{ padding: 8, paddingLeft: 10 }}>
-                            {players[playerIdx].name}
-                        </td>
-                    </tr>
-                ))}
+            <table style={{ width: "100%", borderCollapse: "collapse"}}>
+                <tr>
+                    {partData.map((playerIdx: any, index: any) => {
+                        if (index > 2) return;
+                        return (
+                            <PlayerCell playerData={players[playerIdx]} bgColor={warnings[partNum][index] == 0 ? 'white' : '#ffcccc'} onClick={() => { onPlayerClick(partNum, index) }}></PlayerCell>
+                        )
+                    })}
+                </tr>
+                <tr>
+                    {partData.map((playerIdx: any, index: any) => {
+                        if (index < 3) return;
+                        return (
+                            <PlayerCell playerData={players[playerIdx]} bgColor={warnings[partNum][index] == 0 ? 'white' : '#ffcccc'} onClick={() => { onPlayerClick(partNum, index) }}></PlayerCell>
+                        )
+                    })}
+                </tr>
             </table>
         </Box>
+    );
+}
+
+function PlayerCell({playerData, bgColor, onClick}: {playerData: any, bgColor: string, onClick: () => void}) {
+    return (
+        <td key={Math.random()} style={{ textAlign: "center", width: "33.3%", paddingBottom: "20px", backgroundColor: bgColor}} onClick={() => { onClick() }}>
+            {playerData.short}
+        </td>
     );
 }

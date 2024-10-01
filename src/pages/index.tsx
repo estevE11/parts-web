@@ -84,6 +84,13 @@ export default function Home() {
 
     const updateSelectedPlayer = (newPlayerId: number) => {
         if (!parts) return;
+        const current = parts[positionSelected[0]][positionSelected[1]];
+        for (let i = 0; i < parts[positionSelected[0]].length; i++) {
+            if (parts[positionSelected[0]][i] === newPlayerId) {
+                parts[positionSelected[0]][i] = current;
+                break;
+            }
+        }
         parts[positionSelected[0]][positionSelected[1]] = newPlayerId;
         setParts([...parts]);
         setSelectPlayerModalOpen(false);

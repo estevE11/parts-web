@@ -24,7 +24,7 @@ export default function SelectPlayerModal({ open, onClose, players, changePositi
                     {partPlayers.map((playerId: number, index: number) => {
                         const player = players[playerId];
                         return (
-                            <tr key={Math.random()} style={{border: index == changePosition ? "1px solid black" : ""}}>
+                            <tr key={Math.random()} style={{border: index == changePosition ? "1px solid black" : ""}} onClick={() => onChange(playerId)}>
                                 <td align='right'>
                                     {player.number}
                                 </td>
