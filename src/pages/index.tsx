@@ -9,6 +9,7 @@ import EditLineupModal from '@/components/modals/EditLineupModal';
 import PlayCountList from '@/components/modules/PlayCountList';
 import Header from '@/components/modules/Header';
 import PartHeader from '../components/ui/PartHeader';
+import Part from '@/components/modules/Part';
 
 export default function Home() {
     const toast = useToast();
@@ -156,21 +157,7 @@ export default function Home() {
 
                     }
                     {parts && parts.map((part: number[], partNum) => (
-                        <Box key={"part" + partNum}>
-                            <PartHeader partNum={partNum}></PartHeader>
-                            <table style={{marginRight: "10%", marginLeft: "10%"}}>
-                                {part.map((playerIdx, index) => (
-                                    <tr key={Math.random()} style={{backgroundColor: warnings[partNum][index] == 0 ? 'white' : '#ffcccc'}} onClick={() => { openSelectPlayerModal(partNum, index) }}>
-                                        <td align='right'>
-                                            { players[playerIdx].number }
-                                        </td>
-                                        <td style={{padding:8, paddingLeft: 10}}>
-                                            { players[playerIdx].name }
-                                        </td>
-                                    </tr>
-                                ))}
-                            </table>
-                        </Box>
+                        <Part partData={part} partNum={partNum} players={players} warnings={warnings} onPlayerClick={openSelectPlayerModal}></Part>
                     ))}
                     { players.length > 0 && 
                         <PlayCountList
